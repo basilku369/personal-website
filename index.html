@@ -44,12 +44,12 @@
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background: #050505; z-index: 99999;
         display: flex; flex-direction: column; justify-content: center; align-items: center;
-        transition: opacity 0.5s ease, visibility 0.5s ease; /* Faster fade */
+        transition: opacity 0.5s ease, visibility 0.5s ease;
     }
     #preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
     
     #error-screen { z-index: 99998; display: none; } 
-    #error-screen.visible { display: flex; }
+    #error-screen.visible { display: flex; opacity: 1; }
 
     .lottie-container { width: 100px; height: 100px; margin-bottom: 24px; opacity: 0.9; }
 
@@ -244,9 +244,6 @@
 </head>
 
 <body>
-  <!-- Lottie Player Script -->
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-
   <!-- PRELOADER -->
   <div id="preloader">
     <div class="lottie-container">
@@ -282,7 +279,7 @@
   <canvas id="bg-canvas"></canvas>
 
   <!-- NAVIGATION -->
-  <div class="nav-wrapper reveal">
+  <div class="nav-wrapper reveal" id="navWrapper">
     <nav class="nav-capsule">
       <a href="#home" class="nav-link active">Home</a>
       <a href="#experience" class="nav-link">Experience</a>
@@ -290,6 +287,11 @@
       <a href="#skills" class="nav-link">Skills</a>
       <a href="#certifications" class="nav-link">Certifications</a>
       <a href="#contact" class="nav-link">Contact</a>
+      
+      <!-- Hamburger Icon (Hidden by default) -->
+      <svg class="nav-hamburger" viewBox="0 0 24 24">
+        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+      </svg>
     </nav>
   </div>
 
@@ -370,7 +372,7 @@
                 <li>• Supported site engineers in coordinating routine on-site tasks.</li>
               </ul>
             </div>
-            <a href="https://drive.google.com/file/d/158Jsv2ZpMDnyTVjhEpJwSrD-6rj-VDwC/view?usp=drive_link" target="_blank" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px;">View Certificate</a>
+            <a href="https://drive.google.com/file/d/1eSXf2YXjx1eA-L6NBL0j4B1qq9D6mv03/view?usp=drive_link" target="_blank" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px;">View Certificate</a>
           </div>
         </article>
 
@@ -431,7 +433,7 @@
     </article>
 
     <!-- POSITIONS OF RESPONSIBILITY -->
-    <div class="reveal" style="margin-top: 60px; margin-bottom: 10px;">
+    <div id="positions" class="reveal" style="margin-top: 60px; margin-bottom: 10px;">
       <h2 class="section-title">Positions of Responsibility</h2>
       <div class="title-line"></div>
     </div>
@@ -655,7 +657,7 @@
              <h3 class="card-title" style="font-size: 1.4rem; margin-bottom: 4px;">AutoCAD</h3>
              <p style="font-size: 0.95rem; color: #888;">Internshala Trainings</p>
           </div>
-          <a href="https://drive.google.com/file/d/1eSXf2YXjx1eA-L6NBL0j4B1qq9D6mv03/view?usp=drive_link" target="_blank" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px;">View Certificate</a>
+          <a href="PUT_YOUR_GOOGLE_DRIVE_LINK_HERE" target="_blank" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px;">View Certificate</a>
         </div>
       </article>
 
@@ -665,7 +667,7 @@
              <h3 class="card-title" style="font-size: 1.4rem; margin-bottom: 4px;">Microsoft Excel</div>
              <p style="font-size: 0.95rem; color: #888;">Udemy</p>
           </div>
-          <a href="https://drive.google.com/file/d/1DtcDch4CmnN4c6f0EBxX3Qb61vSDYWME/view?usp=drive_link" target="_blank" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px;">View Certificate</a>
+          <a href="PUT_YOUR_GOOGLE_DRIVE_LINK_HERE" target="_blank" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px;">View Certificate</a>
         </div>
       </article>
 
@@ -675,22 +677,22 @@
              <h3 class="card-title" style="font-size: 1.4rem; margin-bottom: 4px;">SEBI Investor Certificate</h3>
              <p style="font-size: 0.95rem; color: #888;">Securities and Exchange Board of India</p>
           </div>
-          <a href="https://drive.google.com/file/d/1ZM5gnI0ZnFVEh8RmNl_Ytd-vpF5chCae/view?usp=drive_link" target="_blank" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px;">View Certificate</a>
+          <a href="PUT_YOUR_GOOGLE_DRIVE_LINK_HERE" target="_blank" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px;">View Certificate</a>
         </div>
       </article>
     </div>
 
     <!-- NEW SIMPLE CONTACT SECTION -->
     <section id="contact" class="reveal contact-section">
-       <h2 class="section-title" style="font-size: 2.5rem; line-height: 1; margin-bottom: 20px;">Connect With Me!</h2>
+        <h2 class="section-title" style="font-size: 2.5rem; line-height: 1; margin-bottom: 20px;">Reach Out</h2>
         
         <div class="contact-simple">
             <p class="contact-desc">Whether it’s a question, a collaboration, or a simple hello, you can contact me here.</p>
             
             <div class="contact-link-group">
-                <a href="mailto:basilku369@gmail.com" class="contact-link-item">
+                <a href="mailto:yourmail@gmail.com" class="contact-link-item">
                     <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                    basilku369@gmail.com
+                    Email: yourmail@gmail.com
                 </a>
                 
                 <a href="https://linkedin.com/in/basilku" target="_blank" class="contact-link-item">
@@ -722,6 +724,9 @@
 
   </div> <!-- End Page Wrapper -->
 
+<!-- Lottie Player Script (Moved to the very end for performance) -->
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
 <script>
     // 1. SMOOTH REVEAL TYPEWRITER
     const smoothReveal = (id, text, startDelay) => {
@@ -752,14 +757,14 @@
             navWrapper.classList.add('compact');
         }
 
-        // SPEED UP PRELOADER 
+        // SPEED UP PRELOADER (Minimal delay for smooth transition)
         setTimeout(() => {
             preloader.classList.add('hidden');
             setTimeout(() => {
                 smoothReveal('type-1', 'Hello,', 100);
                 smoothReveal('type-2', "I'm Basil.", 500);
             }, 300);
-        }, 200);
+        }, 200); // Only wait 200ms before starting the fade
     });
 
     // Handle Resize
