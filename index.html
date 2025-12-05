@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Basil K U | Civil Engineering Graduate</title>
+  <meta name="description" content="Portfolio of Basil K U, a Civil Engineering Graduate specializing in QA/QC, project documentation, and sustainable construction.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+        --bg: #050505;
+        --card-bg: #0a0a0a;
+        --card-border: #222;
+        --text-main: #e4e4e7;
+        --text-strong: #ffffff;
+        --accent-orange: #ff7b00;
+        --font-head: "Outfit", sans-serif;
+        --font-body: "Manrope", sans-serif;
+        --radius-xl: 24px;
+        --radius-pill: 100px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+        background-color: var(--bg);
+        font-family: var(--font-body);
+        color: var(--text-main);
+        line-height: 1.6;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; transition: opacity 0.2s; cursor: pointer; }
+
+    /* PRELOADER & ERROR SCREEN */
+    #preloader, #error-screen {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: #050505; z-index: 99999;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        transition: opacity 0.5s ease, visibility 0.5s ease; /* Faster fade */
+    }
+    #preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    
+    #error-screen { z-index: 99998; display: none; } 
+    #error-screen.visible { display: flex; }
+
+    .lottie-container { width: 100px; height: 100px; margin-bottom: 24px; opacity: 0.9; }
+
+    .loader-text, .error-text {
+        font-family: var(--font-body); font-size: 0.75rem; color: #888;
+        text-transform: uppercase; letter-spacing: 0.25em;
+        font-weight: 500; animation: pulseText 2s infinite ease-in-out;
+    }
+    .error-text { color: #ff4d4d; }
+    @keyframes pulseText { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+    /* Backgrounds */
+    .noise-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        pointer-events: none; z-index: 9000; opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+    #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+    .page-wrapper { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background-color: #333; border-radius: 6px; border: 2px solid var(--bg); }
+    ::-webkit-scrollbar-thumb:hover { background-color: #555; }
+    ::selection { background: var(--accent-orange); color: #fff; }
+
+    .click-ripple {
+        position: fixed; border-radius: 50%; background: rgba(255, 255, 255, 0.4);
+        transform: scale(0); pointer-events: none; z-index: 9999; animation: ripple 0.6s linear;
+    }
+    @keyframes ripple { to { transform: scale(4); opacity: 0; } }
+
+    /* Nav */
+    .nav-wrapper { position: fixed; top: 24px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 100; pointer-events: none; }
+    .nav-capsule {
+        pointer-events: auto; background: rgba(10, 10, 10, 0.7);
+        backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08); padding: 8px; border-radius: var(--radius-pill);
+        display: flex; gap: 4px; box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
+        transition: transform 0.3s ease;
+    }
+    .nav-capsule:hover { transform: translateY(-2px); }
+    .nav-link {
+        color: #888; font-size: 13px; font-weight: 600; padding: 8px 18px; border-radius: var(--radius-pill);
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); white-space: nowrap;
+    }
+    .nav-link:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
+    .nav-link.active { color: #fff; background-color: #222; border: 1px solid rgba(255, 255, 255, 0.1); }
+
+    /* Hero */
+    .hero { 
+        min-height: 90vh; 
+        display: flex; flex-direction: column; justify-content: center; align-items: center; 
+        text-align: center; 
+        padding-top: 120px; 
+        padding-bottom: 120px; 
+        position: relative; 
+    }
+
+    /* Soft Blob Photo */
+    .blob-wrapper { 
+        position: relative; width: 280px; height: 280px; margin: 0 auto 3rem; 
+        display: flex; justify-content: center; align-items: center; 
+    }
+    .blob-photo {
+        width: 100%; height: 100%; object-fit: cover; display: block;
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        animation: morph 8s ease-in-out infinite;
+        box-shadow: 0 0 50px rgba(255, 123, 0, 0.2);
+        transition: transform 0.5s ease;
+    }
+    .blob-photo:hover { transform: scale(1.05); }
+    @keyframes morph {
+        0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+        100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    }
+
+    .hero-title { font-family: var(--font-head); font-size: clamp(3rem, 7vw, 5.5rem); line-height: 1.1; font-weight: 800; color: #fff; margin-bottom: 24px; max-width: 900px; }
+    .hero-desc { font-size: 1.15rem; max-width: 600px; margin-bottom: 40px; color: var(--text-main); }
+    
+    .hero-char {
+        display: inline-block; opacity: 0; transform: translateY(20px) scale(0.9); filter: blur(8px);
+        transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        background: linear-gradient(90deg, #ff7b00 0%, #ffcc80 50%, #ff7b00 100%);
+        background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-char.visible { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+
+    /* Buttons */
+    .btn { display: inline-flex; align-items: center; justify-content: center; border-radius: var(--radius-pill); font-weight: 600; transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1); cursor: pointer; border: none; }
+    .hero-actions { display: flex; gap: 12px; justify-content: center; }
+    .hero-actions .btn { padding: 12px 28px; font-size: 0.95rem; }
+    .btn-primary { background: #fff; color: #000; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255,255,255,0.3); }
+    .btn-secondary { background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); }
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); border-color: #fff; transform: translateY(-3px); }
+    .btn-capsule { background: #fff; color: #000; padding: 16px 56px; border-radius: 999px; font-size: 1rem; letter-spacing: 0.02em; font-weight: 600; border: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1); display: inline-block; margin-top: 20px; }
+    .btn-capsule:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 15px 30px rgba(255, 255, 255, 0.15); }
+
+    /* Cards */
+    .bento-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .card {
+        background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-xl);
+        padding: 40px; position: relative; overflow: hidden;
+        --mouse-x: 0px; --mouse-y: 0px; transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1), border-color 0.4s;
+    }
+    .card::before {
+        content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.06), transparent 40%);
+        opacity: 0; transition: opacity 0.5s; z-index: 2; pointer-events: none;
+    }
+    .card:hover::before { opacity: 1; }
+    .card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); }
+    .card-title { font-size: 2rem; margin-bottom: 16px; line-height: 1.1; font-family: var(--font-head); color: #fff; }
+    .card-text { font-size: 1rem; color: var(--text-main); line-height: 1.6; }
+    
+    .card-blob { position: absolute; width: 300px; height: 300px; border-radius: 50%; filter: blur(90px); opacity: 0.12; z-index: 0; pointer-events: none; transition: opacity 0.5s; }
+    .card:hover .card-blob { opacity: 0.2; }
+    .blob-purple { background: #8b5cf6; top: -50px; right: -50px; }
+    .blob-cyan { background: #06b6d4; bottom: -50px; left: -50px; }
+    .blob-orange { background: #f97316; bottom: 0; right: 0; }
+    .card-content { position: relative; z-index: 3; }
+
+    .section-title { font-size: 2.5rem; font-weight: 700; color: #fff; margin-bottom: 15px; line-height: 1.2; letter-spacing: -0.02em; }
+    .title-line { width: 60px; height: 3px; background: var(--accent-orange); border-radius: 2px; margin-bottom: 40px; }
+    .signature-title { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 500; font-style: italic; color: #fff; margin-bottom: 12px; letter-spacing: -0.02em; position: relative; display: inline-block; background: linear-gradient(to right, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .signature-title::after { content: "."; color: var(--accent-orange); -webkit-text-fill-color: var(--accent-orange); }
+
+    .skill-tag { background: rgba(255,255,255,0.03); padding: 8px 16px; border-radius: 8px; font-size: 14px; color: #e4e4e7; border: 1px solid rgba(255,255,255,0.08); display: inline-block; transition: all 0.3s; }
+    .skill-tag:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); transform: translateY(-2px); }
+    .timeline-block { border-left: 2px solid #333; padding-left: 20px; margin-bottom: 24px; position: relative; }
+    .timeline-block::before { content: ""; position: absolute; left: -6px; top: 6px; width: 10px; height: 10px; background: var(--card-bg); border: 2px solid #555; border-radius: 50%; transition: background 0.3s, border-color 0.3s; }
+    .card:hover .timeline-block::before { border-color: var(--accent-orange); background: var(--accent-orange); }
+
+    /* --- NEW SIMPLE CONTACT SECTION --- */
+    .contact-section { text-align: center; max-width: 600px; margin: 0 auto 80px; padding-top: 60px; }
+    .contact-simple {
+        display: flex; flex-direction: column; gap: 20px; 
+        background: rgba(255,255,255,0.03); 
+        padding: 40px; border-radius: 24px; 
+        border: 1px solid rgba(255,255,255,0.08);
+    }
+    .contact-desc { font-size: 1.1rem; color: #a1a1aa; margin-bottom: 20px; }
+    .contact-link-group { display: flex; flex-direction: column; gap: 16px; }
+    .contact-link-item {
+        display: flex; align-items: center; justify-content: center; gap: 10px;
+        padding: 16px; border-radius: 12px;
+        background: rgba(255,255,255,0.05);
+        color: #fff; font-size: 1rem; font-weight: 500;
+        transition: all 0.3s; border: 1px solid transparent;
+    }
+    .contact-link-item:hover {
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(255,255,255,0.2);
+        transform: translateY(-2px);
+    }
+    .contact-link-item svg { width: 20px; height: 20px; fill: currentColor; }
+
+    .site-footer { border-top: 1px solid #1a1a1a; padding: 60px 0 80px; margin-top: 120px; }
+    .footer-container { max-width: 1000px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+    .made-with-love { color: #666; font-size: 14px; }
+    .made-with-love span { color: #eab308; font-weight: 600; }
+    .social-link { width: 48px; height: 48px; border-radius: 50%; border: 1px solid #333; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; color: #888; background: rgba(255,255,255,0.02); }
+    .social-link:hover { border-color: #0077b5; background-color: #0077b5; color: #fff; transform: translateY(-4px) scale(1.1); }
+    .social-link svg { width: 22px; height: 22px; fill: currentColor; }
+
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.2, 1, 0.3, 1); }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    [id^="project-details-"], [id^="pos-details-"] { transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1); opacity: 0; transform: translateY(-10px); }
+    .scroll-indicator { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); opacity: 0.5; animation: bounce 2s infinite; transition: opacity 0.5s ease; }
+    .scroll-indicator svg { width: 24px; height: 24px; fill: #fff; }
+    @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); } 40% { transform: translate(-50%, -10px); } 60% { transform: translate(-50%, -5px); } }
+
+    .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; pointer-events: none; transition: all 0.3s ease; z-index: 1000; backdrop-filter: blur(10px); }
+    .back-to-top.visible { opacity: 1; pointer-events: auto; }
+    .back-to-top:hover { background: var(--accent-orange); border-color: var(--accent-orange); transform: translateY(-3px); }
+    .back-to-top svg { width: 24px; height: 24px; fill: #fff; }
+
+    @media (max-width: 768px) {
+        .bento-grid { grid-template-columns: 1fr; }
+        .hero-title { font-size: 3rem; }
+        .nav-capsule { padding: 8px; gap: 4px; max-width: 95%; overflow-x: auto; justify-content: flex-start; }
+        .nav-capsule::-webkit-scrollbar { display: none; }
+        .nav-link { padding: 8px 14px; font-size: 13px; }
+        .card { padding: 28px; }
+        .footer-container { flex-direction: column; gap: 20px; text-align: center; }
+        .contact-form-container { padding: 32px 24px; }
+        .signature-title { font-size: 2.5rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Lottie Player Script -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <div class="lottie-container">
+        <!-- Minimal 3-Dot Loader -->
+        <lottie-player 
+            src="https://assets9.lottiefiles.com/packages/lf20_b88nh30c.json" 
+            background="transparent" 
+            speed="1" 
+            style="width: 100%; height: 100%;" 
+            loop 
+            autoplay>
+        </lottie-player>
+    </div>
+    <div class="loader-text">Preparing my story…</div>
+  </div>
+
+  <!-- ERROR SCREEN -->
+  <div id="error-screen">
+    <div class="lottie-container">
+        <lottie-player 
+            src="https://assets9.lottiefiles.com/packages/lf20_b88nh30c.json" 
+            background="transparent" 
+            speed="1" 
+            style="width: 100%; height: 100%;" 
+            loop 
+            autoplay>
+        </lottie-player>
+    </div>
+    <div class="error-text">Something didn’t load correctly.</div>
+  </div>
+
+  <div class="noise-overlay"></div>
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- NAVIGATION -->
+  <div class="nav-wrapper reveal">
+    <nav class="nav-capsule">
+      <a href="#home" class="nav-link active">Home</a>
+      <a href="#experience" class="nav-link">Experience</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#skills" class="nav-link">Skills</a>
+      <a href="#certifications" class="nav-link">Certifications</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+  </div>
+
+  <div class="page-wrapper">
+    
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+      <div>
+        <!-- SOFT BLOB PHOTO -->
+        <div class="blob-wrapper reveal">
+            <img src="basil-photo.jpg" alt="Basil K U" class="blob-photo">
+        </div>
+
+        <h1 class="hero-title">
+          <span class="anim-text" id="type-1"></span> <span class="anim-text" id="type-2"></span>
+        </h1>
+        
+        <p class="hero-desc reveal">
+          I'm a Civil Engineering graduate from School of Engineering, CUSAT. I combine technical engineering skills with a passion for team management and project documentation.
+        </p>
+        
+        <div class="hero-actions reveal">
+          <a href="#contact" class="btn btn-primary">Get in touch</a>
+          <a href="https://drive.google.com/file/d/1bFRvtXzL1FHgTix6MbKGQEX4cAohmW5y/view?usp=sharing" target="_blank" class="btn btn-secondary">Download Resume</a>
+        </div>
+      </div>
+      <!-- Scroll Indicator -->
+      <div class="scroll-indicator" id="scrollIndicator">
+        <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+      </div>
+    </section>
+
+    <!-- STORY CARD -->
+    <div class="card reveal" style="margin-bottom: 60px;">
+        <div class="card-blob blob-purple"></div>
+        <div class="card-content">
+            <h2 class="signature-title">My Story</h2>
+            <div class="card-text" style="max-width: 900px; margin-top: 10px;">
+                <p style="margin-bottom: 1rem;">
+                    What shaped me the most were the places where work felt real - construction sites, student teams, and moments where clarity and responsibility mattered more than titles. That’s where I first understood how <strong>quality is built</strong>, not just inspected.
+                </p>
+                <p style="margin-bottom: 1rem;">
+                    Through roles like Outreach & PR Lead at <strong>TEDxCUSAT</strong>, curating an innovation summit, and working with <strong>IGBC</strong> on sustainability initiatives, I learned how to manage people, communicate openly, and stay steady when plans shift. Those experiences taught me that progress often comes from simple things: clear communication, organised workflows, and a team that trusts each other.
+                </p>
+                <p style="margin-bottom: 1rem;">
+                    <strong>Teaching physics</strong> added another layer. It taught me to break concepts down, stay patient, and notice details others might overlook; habits that naturally carry into quality-focused engineering.
+                </p>
+                <p>
+                    Right now, I’m strengthening my foundations in <strong>QA and QC</strong>, learning how small checks, clean documentation, and practical thinking can make projects run smoother and safer.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- EXPERIENCE SECTION -->
+    <div id="experience" class="reveal" style="margin-top: 60px; margin-bottom: 10px;">
+      <h2 class="section-title">Experience</h2>
+      <div class="title-line"></div>
+    </div>
+
+    <div class="bento-grid">
+        <!-- PWD -->
+        <article class="card reveal">
+          <div class="card-content">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+              <h3 class="card-title" style="font-size: 1.5rem; margin-bottom: 0;">Construction Site Intern</h3>
+              <span style="font-size: 12px; border: 1px solid rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 6px; color: #aaa;">June 2024</span>
+            </div>
+            <div style="color: #ff7b00; font-weight: 600; font-size: 1rem; margin-bottom: 12px;">Kerala Public Works Department (PWD)</div>
+            <div class="timeline-block">
+              <div style="font-size: 0.9rem; color: #ccc; font-style: italic; margin-bottom: 15px;">
+                <strong>Project:</strong> NABARD RIDF XXVI – Construction of a new block for Taluk Hospital, Tripunithura
+              </div>
+              <ul style="list-style: none; color: var(--text-main); font-size: 0.95rem; padding-left: 0;">
+                <li style="margin-bottom: 8px;">• Assisted in piling work, including observing pile driving and concreting procedures.</li>
+                <li style="margin-bottom: 8px;">• Helped with basic site measurements and daily activity documentation.</li>
+                <li style="margin-bottom: 8px;">• Observed quality checks carried out during foundation work.</li>
+                <li>• Supported site engineers in coordinating routine on-site tasks.</li>
+              </ul>
+            </div>
+            <a href="https://drive.google.com/file/d/158Jsv2ZpMDnyTVjhEpJwSrD-6rj-VDwC/view?usp=drive_link" target="_blank" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px;">View Certificate</a>
+          </div>
+        </article>
+
+        <!-- RAILWAYS -->
+        <article class="card reveal">
+          <div class="card-content">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+              <h3 class="card-title" style="font-size: 1.5rem; margin-bottom: 0;">Civil Engineering Intern</h3>
+              <span style="font-size: 12px; border: 1px solid rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 6px; color: #aaa;">May 2023</span>
+            </div>
+            <div style="color: #ff7b00; font-weight: 600; font-size: 1rem; margin-bottom: 12px;">Indian Railways</div>
+            <div class="timeline-block">
+              <div style="font-size: 0.9rem; color: #ccc; font-style: italic; margin-bottom: 15px;">
+                <strong>Project:</strong> Redevelopment of Ernakulam Junction Railway Station on EPC mode
+              </div>
+              <ul style="list-style: none; color: var(--text-main); font-size: 0.95rem; padding-left: 0;">
+                <li style="margin-bottom: 8px;">• Observed day-to-day civil engineering activities at the site.</li>
+                <li style="margin-bottom: 8px;">• Reviewed drawings and documents to understand execution methods.</li>
+                <li style="margin-bottom: 8px;">• Assisted in basic site-level documentation tasks.</li>
+                <li>• Learned standard inspection routines followed by railway engineering teams.</li>
+              </ul>
+            </div>
+            <a href="https://drive.google.com/file/d/1bn_-NL5KRb6AEZOnPEGxTYUmfoQUih_k/view?usp=drive_link" target="_blank" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px;">View Certificate</a>
+          </div>
+        </article>
+    </div>
+
+    <!-- PROJECTS SECTION -->
+    <div id="projects" class="reveal" style="margin-top: 60px; margin-bottom: 10px;">
+      <h2 class="section-title">Projects</h2>
+      <div class="title-line"></div>
+    </div>
+
+    <article class="card reveal" style="grid-column: 1 / -1;">
+      <div class="card-blob blob-cyan"></div>
+      <div class="card-content">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+          <h3 class="card-title" style="font-size: 1.5rem; margin-bottom: 0;">Development of Permeable Pavement Block</h3>
+          <span style="font-size: 12px; border: 1px solid rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 6px; color: #aaa;">March 2025</span>
+        </div>
+        <p class="card-text" style="max-width: 900px; margin-bottom: 20px;">
+          This project aimed to create pavement blocks that allow water to pass through while still maintaining enough strength for light traffic. It involved multiple trials, lab testing, and small adjustments in mix design to balance permeability and durability.
+        </p>
+        
+        <!-- FULL PROJECT DETAILS HIDDEN/TOGGLED -->
+        <div id="project-details-1" style="display: none; margin-bottom: 20px; padding-top: 10px; border-top: 1px solid #333;">
+           <ul style="list-style: none; color: var(--text-main); font-size: 0.95rem; padding-left: 0;">
+            <li style="margin-bottom: 8px;">• Designed and tested multiple mix proportions to achieve both strength and permeability.</li>
+            <li style="margin-bottom: 8px;">• Conducted compressive strength tests and permeability tests for each trial mix.</li>
+            <li style="margin-bottom: 8px;">• Adjusted materials and ratios through trial and error to improve infiltration performance.</li>
+            <li>• Documented test results, observations, and final mix recommendations.</li>
+          </ul>
+        </div>
+        <div style="display: flex; justify-content: flex-start;">
+            <button onclick="toggleDetails('project-details-1', this)" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px;">View Details</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- POSITIONS OF RESPONSIBILITY -->
+    <div class="reveal" style="margin-top: 60px; margin-bottom: 10px;">
+      <h2 class="section-title">Positions of Responsibility</h2>
+      <div class="title-line"></div>
+    </div>
+
+    <div class="bento-grid">
+        <!-- 1. Vibhava -->
+        <article class="card reveal" style="grid-column: 1 / -1;">
+          <div class="card-content">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+              <h3 class="card-title" style="font-size: 1.5rem; margin-bottom: 0;">Curation Lead</h3>
+              <span style="font-size: 12px; border: 1px solid rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 6px; color: #aaa;">Mar 2025</span>
+            </div>
+            <div style="color: #8b5cf6; font-weight: 600; font-size: 1rem; margin-bottom: 16px;">Vibhava Innovation Summit</div>
+            <p class="card-text" style="margin-bottom: 16px;">Led the curation and coordination of an innovation summit featuring panels, workshops, and speakers from diverse fields.</p>
+            
+            <div id="pos-details-1" style="display: none; margin-bottom: 20px; padding-top: 10px; border-top: 1px solid #333;">
+              <ul style="list-style: none; color: var(--text-main); font-size: 0.95rem; padding-left: 0;">
+                <li style="margin-bottom: 8px;">• Led a 12-member team to curate and execute the innovation summit attended by 300+ students.</li>
+                <li style="margin-bottom: 8px;">• Designed and planned two panel discussions on AI, future careers, and entrepreneurship featuring 8+ speakers.</li>
+                <li style="margin-bottom: 8px;">• Hosted three “Hustle Diaries” sessions with young startup founders.</li>
+                <li style="margin-bottom: 8px;">• Coordinated workshops on design thinking, Gen AI, and personal finance.</li>
+                <li style="margin-bottom: 8px;">• Managed speaker outreach and communication, securing 15+ speakers from startups, academia, and media.</li>
+                <li style="display: flex;">• Handled logistics and hospitality arrangements for speakers during the event.</li>
+              </ul>
+            </div>
+            <button onclick="toggleDetails('pos-details-1', this)" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px; cursor: pointer;">View Details</button>
+          </div>
+        </article>
+        
+        <!-- 2. TEDx -->
+        <article class="card reveal" style="grid-column: 1 / -1;">
+          <div class="card-content">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+              <h3 class="card-title" style="font-size: 1.5rem; margin-bottom: 0;">Outreach & PR Head</h3>
+              <span style="font-size: 12px; border: 1px solid rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 6px; color: #aaa;">Apr 2024 – Nov 2024</span>
+            </div>
+            <div style="color: #f43f5e; font-weight: 600; font-size: 1rem; margin-bottom: 16px;">TEDxCUSAT</div>
+            <p class="card-text" style="margin-bottom: 16px;">Directed PR and outreach efforts for TEDxCUSAT 2024 edition, driving audience growth, communication, and event visibility across platforms.</p>
+            <div id="pos-details-2" style="display: none; margin-bottom: 20px; padding-top: 10px; border-top: 1px solid #333;">
+              <ul style="list-style: none; color: var(--text-main); font-size: 0.95rem; padding-left: 0;">
+                <li style="margin-bottom: 8px;">• Led a 30-member PR team handling outreach, communication, and audience engagement.</li>
+                <li style="margin-bottom: 8px;">• Increased Instagram profile visits by 761% and grew followers from 3,700 to 4,550+.</li>
+                <li style="margin-bottom: 8px;">• Reached 181k+ unique accounts and generated 573k+ engagements through content campaigns.</li>
+                <li style="margin-bottom: 8px;">• Built the TEDxCUSAT LinkedIn presence to 300+ followers and 47,000+ impressions.</li>
+                <li style="margin-bottom: 8px;">• Launched and managed a newsletter reaching 3,000+ subscribers.</li>
+                <li style="display: flex;">• Oversaw merchandise sales, generating a profit of ₹16,000+ for the event.</li>
+              </ul>
+            </div>
+            <button onclick="toggleDetails('pos-details-2', this)" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px; cursor: pointer;">View Details</button>
+          </div>
+        </article>
+
+        <!-- 3. IGBC Secretary -->
+        <article class="card reveal" style="grid-column: 1 / -1;">
+          <div class="card-content">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+              <h3 class="card-title" style="font-size: 1.5rem; margin-bottom: 0;">Club Secretary</h3>
+              <span style="font-size: 12px; border: 1px solid rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 6px; color: #aaa;">Oct 2023 – Oct 2024</span>
+            </div>
+            <div style="color: #10b981; font-weight: 600; font-size: 1rem; margin-bottom: 16px;">IGBC CUSAT Chapter</div>
+            <p class="card-text" style="margin-bottom: 16px;">Handled coordination, communication, and event organisation for IGBC’s sustainability-focused student initiatives.</p>
+            <div id="pos-details-3" style="display: none; margin-bottom: 20px; padding-top: 10px; border-top: 1px solid #333;">
+              <ul style="list-style: none; color: var(--text-main); font-size: 0.95rem; padding-left: 0;">
+                <li style="margin-bottom: 8px;">• Coordinated sustainability-related events and activities for engineering students.</li>
+                <li style="margin-bottom: 8px;">• Managed communication between core teams, volunteers, and faculty advisors.</li>
+                <li style="display: flex;">• Organised both online and offline IGBC events throughout the year.</li>
+              </ul>
+            </div>
+            <button onclick="toggleDetails('pos-details-3', this)" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px; cursor: pointer;">View Details</button>
+          </div>
+        </article>
+
+        <!-- 4. IGBC Media Head -->
+        <article class="card reveal" style="grid-column: 1 / -1;">
+          <div class="card-content">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+              <h3 class="card-title" style="font-size: 1.5rem; margin-bottom: 0;">Media & Production Head</h3>
+              <span style="font-size: 12px; border: 1px solid rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 6px; color: #aaa;">Nov 2022 – Oct 2023</span>
+            </div>
+            <div style="color: #10b981; font-weight: 600; font-size: 1rem; margin-bottom: 16px;">IGBC CUSAT Chapter</div>
+            <p class="card-text" style="margin-bottom: 16px;">Managed creative content and event production for IGBC, supporting workshops and technical activities through consistent branding.</p>
+            <div id="pos-details-4" style="display: none; margin-bottom: 20px; padding-top: 10px; border-top: 1px solid #333;">
+              <ul style="list-style: none; color: var(--text-main); font-size: 0.95rem; padding-left: 0;">
+                <li style="margin-bottom: 8px;">• Created 30+ social media designs and event-related digital content.</li>
+                <li style="margin-bottom: 8px;">• Coordinated 10+ technical events including workshops, webinars, and competitions.</li>
+                <li style="display: flex;">• Managed content documentation and branding for the chapter.</li>
+              </ul>
+            </div>
+            <button onclick="toggleDetails('pos-details-4', this)" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px; cursor: pointer;">View Details</button>
+          </div>
+        </article>
+
+        <!-- 5. NSS Volunteer -->
+        <article class="card reveal" style="grid-column: 1 / -1;">
+          <div class="card-content">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+              <h3 class="card-title" style="font-size: 1.5rem; margin-bottom: 0;">Student Volunteer</h3>
+              <span style="font-size: 12px; border: 1px solid rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 6px; color: #aaa;">Feb 2022 – Oct 2023</span>
+            </div>
+            <div style="color: #3b82f6; font-weight: 600; font-size: 1rem; margin-bottom: 16px;">NSS – School of Engineering, CUSAT</div>
+            <p class="card-text" style="margin-bottom: 16px;">Contributed to community service activities, awareness programs, and university-level engagements through the NSS unit.</p>
+            <div id="pos-details-5" style="display: none; margin-bottom: 20px; padding-top: 10px; border-top: 1px solid #333;">
+              <ul style="list-style: none; color: var(--text-main); font-size: 0.95rem; padding-left: 0;">
+                <li style="margin-bottom: 8px;">• Participated in 25+ community service activities, including blood donation camps and awareness sessions.</li>
+                <li style="margin-bottom: 8px;">• Managed the NSS SOE unit’s Instagram page by creating and posting updates, event highlights, and awareness content.</li>
+                <li style="margin-bottom: 8px;">• Represented CUSAT at the National Youth Festival 2025 in Hubballi–Dharwad.</li>
+                <li style="margin-bottom: 8px;">• Served as a speaker for DISHA, a digital empowerment program for senior citizens.</li>
+                <li style="display: flex;">• Initiated and completed 2 episodes of “Ask & Awe,” a public interaction program under NSS.</li>
+              </ul>
+            </div>
+            <button onclick="toggleDetails('pos-details-5', this)" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px; cursor: pointer;">View Details</button>
+          </div>
+        </article>
+    </div>
+
+    <!-- SKILLS SECTION -->
+    <div id="skills" class="reveal" style="margin-top: 60px; margin-bottom: 10px;">
+      <h2 class="section-title">Skills</h2>
+      <div class="title-line"></div>
+    </div>
+
+    <div class="bento-grid">
+      <!-- Main Skills -->
+      <article class="card reveal" style="grid-column: 1 / -1;">
+        <div class="card-content">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
+            <div>
+              <h4 style="color: #fff; margin-bottom: 16px; font-size: 1.2rem; border-left: 3px solid #06b6d4; padding-left: 10px;">Technical Skills</h4>
+              <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                <span class="skill-tag">Airtable</span>
+                <span class="skill-tag">AutoCAD</span>
+                <span class="skill-tag">Canva</span>
+                <span class="skill-tag">Microsoft Excel</span>
+                <span class="skill-tag">Microsoft PowerPoint</span>
+                <span class="skill-tag">Microsoft Word</span>
+              </div>
+            </div>
+            <div>
+              <h4 style="color: #fff; margin-bottom: 16px; font-size: 1.2rem; border-left: 3px solid #ff7b00; padding-left: 10px;">Soft Skills</h4>
+              <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                <span class="skill-tag">Adaptability</span>
+                <span class="skill-tag">Communication</span>
+                <span class="skill-tag">Problem Solving</span>
+                <span class="skill-tag">Public Speaking</span>
+                <span class="skill-tag">Team Leadership</span>
+              </div>
+            </div>
+            <div>
+              <h4 style="color: #fff; margin-bottom: 16px; font-size: 1.2rem; border-left: 3px solid #8b5cf6; padding-left: 10px;">Languages</h4>
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+                  <span style="color: #fff; font-size: 15px;">English</span> <span style="color: #666; font-size: 12px;"> - Full Professional Proficiency</span>
+                </div>
+                <div style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+                  <span style="color: #fff; font-size: 15px;">Hindi</span> <span style="color: #666; font-size: 12px;"> - Limited Working Proficiency</span>
+                </div>
+                <div>
+                  <span style="color: #fff; font-size: 15px;">Malayalam</span> <span style="color: #666; font-size: 12px;"> - Native Language Proficiency</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Education & Achievements -->
+      <article class="card reveal" style="grid-row: span 2;">
+        <div class="card-blob blob-orange"></div>
+        <div class="card-content">
+          <h3 class="card-title" style="font-size: 1.8rem; margin-bottom: 30px;">Education</h3>
+          <div class="timeline-block">
+             <h4 style="color: #fff; font-size: 1.1rem; margin-bottom: 4px;">B.Tech Civil Engineering</h4>
+             <p style="font-size: 0.95rem; color: #bbb;">School of Engineering, CUSAT</p>
+             <p style="font-size: 0.85rem; color: #666; margin-top: 4px;">Kochi, Kerala • 2025</p>
+          </div>
+          <div class="timeline-block">
+             <h4 style="color: #fff; font-size: 1.1rem; margin-bottom: 4px;">Class 12</h4>
+             <p style="font-size: 0.95rem; color: #bbb;">St. Mary’s Public School</p>
+             <p style="font-size: 0.85rem; color: #666; margin-top: 4px;">Kuruppampady, Kerala • 2020</p>
+          </div>
+          <div class="timeline-block" style="margin-bottom: 0;">
+             <h4 style="color: #fff; font-size: 1.1rem; margin-bottom: 4px;">Class 10</h4>
+             <p style="font-size: 0.95rem; color: #bbb;">St. Mary’s Public School</p>
+             <p style="font-size: 0.85rem; color: #666; margin-top: 4px;">Kuruppampady, Kerala • 2018</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-content">
+          <h3 class="card-title" style="font-size: 1.8rem; margin-bottom: 30px;">Achievements</h3>
+          <div class="timeline-block">
+            <h4 style="color: #fff; font-size: 1.1rem; margin-bottom: 6px;">Winner - 1st Position</h4>
+            <p style="font-size: 0.9rem; color: #ccc;">All Kerala Civil Engineering Idea Pitching Competition</p>
+            <p style="font-size: 0.85rem; color: #666; margin-top: 4px;">Issued by Christ College of Engineering, Irinjalakuda</p>
+          </div>
+          <div class="timeline-block">
+            <h4 style="color: #fff; font-size: 1.1rem; margin-bottom: 6px;">Finalist</h4>
+            <p style="font-size: 0.9rem; color: #ccc;">Bridge Building Competition at Aakaar 2024 Civil Engineering Techfest</p>
+            <p style="font-size: 0.85rem; color: #666; margin-top: 4px;">Issued by IIT Bombay</p>
+          </div>
+          <div class="timeline-block">
+            <h4 style="color: #fff; font-size: 1.1rem; margin-bottom: 6px;">Volunteer Representative - CUSAT</h4>
+            <p style="font-size: 0.9rem; color: #ccc;">National Youth Festival 2023 (Hubballi-Dharwad)</p>
+            <p style="font-size: 0.85rem; color: #666; margin-top: 4px;">Issued by Ministry of Youth Affairs & Sports, Govt. of India</p>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- CERTIFICATIONS -->
+    <div id="certifications" class="reveal" style="margin-top: 60px; margin-bottom: 10px;">
+      <h2 class="section-title">Certifications</h2>
+      <div class="title-line"></div>
+    </div>
+
+    <div class="bento-grid">
+      <article class="card reveal">
+        <div class="card-content">
+          <div style="margin-bottom: 15px;">
+             <h3 class="card-title" style="font-size: 1.4rem; margin-bottom: 4px;">AutoCAD</h3>
+             <p style="font-size: 0.95rem; color: #888;">Internshala Trainings</p>
+          </div>
+          <a href="https://drive.google.com/file/d/1eSXf2YXjx1eA-L6NBL0j4B1qq9D6mv03/view?usp=drive_link" target="_blank" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px;">View Certificate</a>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-content">
+          <div style="margin-bottom: 15px;">
+             <h3 class="card-title" style="font-size: 1.4rem; margin-bottom: 4px;">Microsoft Excel</div>
+             <p style="font-size: 0.95rem; color: #888;">Udemy</p>
+          </div>
+          <a href="https://drive.google.com/file/d/1DtcDch4CmnN4c6f0EBxX3Qb61vSDYWME/view?usp=drive_link" target="_blank" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px;">View Certificate</a>
+        </div>
+      </article>
+
+      <article class="card reveal" style="grid-column: 1 / -1;">
+        <div class="card-content" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+          <div>
+             <h3 class="card-title" style="font-size: 1.4rem; margin-bottom: 4px;">SEBI Investor Certificate</h3>
+             <p style="font-size: 0.95rem; color: #888;">Securities and Exchange Board of India</p>
+          </div>
+          <a href="https://drive.google.com/file/d/1ZM5gnI0ZnFVEh8RmNl_Ytd-vpF5chCae/view?usp=drive_link" target="_blank" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; border-radius: 50px;">View Certificate</a>
+        </div>
+      </article>
+    </div>
+
+    <!-- NEW SIMPLE CONTACT SECTION -->
+    <section id="contact" class="reveal contact-section">
+       <h2 class="section-title" style="font-size: 2.5rem; line-height: 1; margin-bottom: 20px;">Connect With Me!</h2>
+        
+        <div class="contact-simple">
+            <p class="contact-desc">Whether it’s a question, a collaboration, or a simple hello, you can contact me here.</p>
+            
+            <div class="contact-link-group">
+                <a href="mailto:basilku369@gmail.com" class="contact-link-item">
+                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    basilku369@gmail.com
+                </a>
+                
+                <a href="https://linkedin.com/in/basilku" target="_blank" class="contact-link-item">
+                    <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    Basil K U
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="made-with-love">
+                Made with love by <span>Basil</span>
+            </div>
+            <a href="https://www.linkedin.com/in/basilku/" target="_blank" class="social-link" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                </svg>
+            </a>
+        </div>
+        
+        <!-- BACK TO TOP BUTTON -->
+        <div class="back-to-top" id="backToTop">
+            <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+        </div>
+    </footer>
+
+  </div> <!-- End Page Wrapper -->
+
+<script>
+    // 1. SMOOTH REVEAL TYPEWRITER
+    const smoothReveal = (id, text, startDelay) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.innerHTML = "";
+        
+        [...text].forEach((char, i) => {
+            const span = document.createElement('span');
+            span.textContent = char;
+            span.className = 'hero-char';
+            if (char === " ") span.style.width = "0.3em"; 
+            el.appendChild(span);
+            
+            setTimeout(() => {
+                span.classList.add('visible');
+            }, startDelay + (i * 35)); 
+        });
+    };
+
+    // Initial Setup
+    window.addEventListener('load', () => {
+        const preloader = document.getElementById('preloader');
+        const navWrapper = document.getElementById('navWrapper');
+        
+        // FORCE COMPACT MODE ON MOBILE LOAD
+        if (window.innerWidth < 768) {
+            navWrapper.classList.add('compact');
+        }
+
+        // SPEED UP PRELOADER 
+        setTimeout(() => {
+            preloader.classList.add('hidden');
+            setTimeout(() => {
+                smoothReveal('type-1', 'Hello,', 100);
+                smoothReveal('type-2', "I'm Basil.", 500);
+            }, 300);
+        }, 200);
+    });
+
+    // Handle Resize
+    window.addEventListener('resize', () => {
+        const navWrapper = document.getElementById('navWrapper');
+        if (window.innerWidth < 768) {
+            navWrapper.classList.add('compact');
+        } else {
+            navWrapper.classList.remove('compact');
+            navWrapper.classList.remove('mobile-open');
+        }
+    });
+
+    // 2. Reveal on Scroll
+    const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, observerOptions);
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // 3. Scroll Behavior
+    const navLinks = document.querySelectorAll('.nav-link');
+    const scrollIndicator = document.getElementById('scrollIndicator');
+    const backToTop = document.getElementById('backToTop');
+    const navWrapper = document.getElementById('navWrapper');
+    
+    const sections = document.querySelectorAll('section, .bento-grid, #skills, #experience, #projects, #certifications');
+    let isScrolling = false;
+
+    window.addEventListener('scroll', () => {
+        if (!isScrolling) {
+            window.requestAnimationFrame(() => {
+                handleScrollLogic();
+                isScrolling = false;
+            });
+            isScrolling = true;
+        }
+    });
+
+    function handleScrollLogic() {
+      let current = '';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (window.scrollY >= sectionTop - 200) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').includes(current)) {
+          link.classList.add('active');
+        }
+      });
+      
+      // Scroll Indicator Fade
+      if (scrollIndicator) {
+          scrollIndicator.style.opacity = window.scrollY > 100 ? '0' : '0.5';
+      }
+      
+      // Back to Top Visibility
+      if (backToTop) {
+          if (window.scrollY > 500) backToTop.classList.add('visible');
+          else backToTop.classList.remove('visible');
+      }
+
+      // Auto-close mobile menu on scroll
+      if (navWrapper.classList.contains('mobile-open')) {
+          navWrapper.classList.remove('mobile-open');
+      }
+
+      // --- NAVIGATION LOGIC ---
+      if (window.innerWidth < 768) {
+          if (!navWrapper.classList.contains('compact')) {
+              navWrapper.classList.add('compact');
+          }
+      } else {
+          navWrapper.classList.remove('compact');
+          navWrapper.classList.remove('mobile-open');
+      }
+    }
+
+    if (backToTop) {
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // Toggle for Hamburger
+    const hamburger = document.querySelector('.nav-hamburger');
+    if (hamburger) {
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navWrapper.classList.toggle('mobile-open');
+        });
+    }
+    
+    // Close menu when clicking a link
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+             navWrapper.classList.remove('mobile-open');
+        });
+    });
+    
+    // Close on click outside
+    document.addEventListener('click', (e) => {
+        if (navWrapper && !navWrapper.contains(e.target)) {
+            navWrapper.classList.remove('mobile-open');
+        }
+    });
+
+    // 4. Toggle Details
+    function toggleDetails(id, btn) {
+      var content = document.getElementById(id);
+      if (content.style.display === "none" || content.style.display === "") {
+        content.style.display = "block";
+        setTimeout(() => {
+            content.style.opacity = "1";
+            content.style.transform = "translateY(0)";
+        }, 10);
+        btn.innerHTML = "Show Less";
+        btn.style.background = "rgba(255,255,255,0.2)";
+      } else {
+        content.style.opacity = "0";
+        content.style.transform = "translateY(-10px)";
+        setTimeout(() => {
+            content.style.display = "none";
+        }, 300);
+        btn.innerHTML = "View Details";
+        btn.style.background = "rgba(255,255,255,0.08)";
+      }
+    }
+
+    // 5. SPOTLIGHT EFFECT
+    document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+
+    // 6. CLICK RIPPLE EFFECT
+    document.addEventListener('click', (e) => {
+        const ripple = document.createElement('div');
+        ripple.className = 'click-ripple';
+        ripple.style.left = `${e.clientX}px`;
+        ripple.style.top = `${e.clientY}px`;
+        ripple.style.width = '20px';
+        ripple.style.height = '20px';
+        ripple.style.marginTop = '-10px';
+        ripple.style.marginLeft = '-10px';
+        document.body.appendChild(ripple);
+        setTimeout(() => { ripple.remove(); }, 600);
+    });
+
+    // 7. LIVE BACKGROUND CANVAS
+    const canvas = document.getElementById('bg-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2;
+                this.alpha = Math.random() * 0.5;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            resize();
+            particles = [];
+            const particleCount = window.innerWidth < 768 ? 30 : 60; 
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', () => {
+            resize();
+            initParticles();
+        });
+        
+        initParticles();
+        animateParticles();
+    }
+  </script>
